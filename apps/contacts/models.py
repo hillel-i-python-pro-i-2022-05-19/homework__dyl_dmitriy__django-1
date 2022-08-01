@@ -1,6 +1,7 @@
 import datetime
 
 from django.db import models
+from django.urls import reverse_lazy
 
 from apps.contacts.utils import phone_regex
 
@@ -13,7 +14,7 @@ class TagsChoices(models.TextChoices):
 
 class Tags(models.Model):
     tag_name = models.CharField(
-        'Tags', max_length=60, help_text="Contact's tags",
+        'Tags', max_length=50, help_text="Contact's tags",
     )
 
     def __str__(self) -> str:
@@ -24,18 +25,18 @@ class Tags(models.Model):
 
 class ContactDetailsOptions(models.Model):
     email_address = models.EmailField(
-        'Email', max_length=255,
+        'Email', max_length=254,
         help_text="It is the email address of the person",
         default='example@gmail.com',
         blank=True
     )
     telegram_nickname = models.CharField(
-        'Telegram', max_length=200,
+        'Telegram', max_length=100,
         help_text="Here is contact's telegram",
         blank=True
     )
     linkedin_profile = models.CharField(
-        'LinkedIn', max_length=700,
+        'LinkedIn', max_length=500,
         help_text="Here is the link to contact's LinkedIn profile",
         blank=True
     )
@@ -50,7 +51,7 @@ class ContactDetailsOptions(models.Model):
 class Contact(models.Model):
     contact_name = models.CharField('Contact name', max_length=200,
                                     help_text="It is the name of the person",
-                                    default='Mikki')
+                                    default='Vasya')
 
     tags = models.CharField(
         'Tags', max_length=50,
@@ -76,6 +77,7 @@ class Contact(models.Model):
     birthday_date = models.DateField(
         'Date of birth',
         help_text='Please enter data in the following format %Y-%m-%d',
+        default='2022-07-07',
         blank=True
     )
 
@@ -87,6 +89,9 @@ class Contact(models.Model):
     )
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
+
+    def get_absolute_url(self):
+        return reverse_lazy('contacts:edit', kwargs={'pk': self.pk})
 
     def __str__(self) -> str:
         return f"{self.contact_name} - (+{self.phone_value})"

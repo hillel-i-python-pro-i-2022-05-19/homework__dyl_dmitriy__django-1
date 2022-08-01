@@ -6,7 +6,7 @@
 <ul>
     <h4>The number of users to be generated is: <b>{{ users_count }}</b>
     </h4>
-    {% for user in output_response %}
+    {% for user in generated_users_list %}
     <li>{{ user.name }} - {{ user.unique_email_address }}</li>
     {% endfor %}
 </ul>

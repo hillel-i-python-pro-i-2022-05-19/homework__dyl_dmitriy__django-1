@@ -4,12 +4,11 @@ ENV PYTHONUNBUFFERED=1
 
 ARG WORKDIR=/wd
 ARG USER=user
-ARG UID=1000
 
 WORKDIR ${WORKDIR}
 
-RUN useradd --system ${USER} --uid=${UID} && \
-    chown --recursive ${USER} ${WORKDIR}
+RUN useradd --system ${USER} && \
+        chown --recursive ${USER} ${WORKDIR}
 
 RUN apt update && apt upgrade -y
 
@@ -34,5 +33,4 @@ USER ${USER}
 
 ENTRYPOINT ["/entrypoint.sh"]
 
-VOLUME ${WORKDIR}/db
 EXPOSE 8011

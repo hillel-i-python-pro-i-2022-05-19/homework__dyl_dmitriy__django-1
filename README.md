@@ -81,3 +81,22 @@ make init-dev-create-superuser
 ```
 
 ---
+
+## 🗒Useful scripts
+
+### 👥 Create 3 random contacts
+
+The following contacts will be created
+with random first names and phone number
+
+```shell
+make d-create-contacts-i-3
+```
+
+### 🔐 Generate 64-length string
+
+```shell
+make d-generate-password-i-64
+```
+
+---

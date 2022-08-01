@@ -1,16 +1,25 @@
-from django.http import HttpResponse, HttpRequest
-from django.shortcuts import render
+from typing import ClassVar
+
+from django.views.generic import TemplateView
 
 from apps.user_generator.services import generator_of_users
 
 
-def generate_users_view(request: HttpRequest,
-                        users_count: int = 100) -> HttpResponse:
-    output_response = generator_of_users(amount_of_users=users_count)
-    return render(
-        request, 'user_generator/show_users.html',
-        {
-            "output_response": output_response,
-            "users_count": users_count
-        }
-    )
+class GenerateUsersView(TemplateView):
+    template_name = 'user_generator/show_users.html'
+
+    _DEFAULT_USERS_COUNT: ClassVar[int] = 100
+
+    def get_context_data(self, **kwargs):
+        data = super().get_context_data(**kwargs)
+
+        try:
+            users_count = data['users_count']
+        except KeyError:
+            users_count = self._DEFAULT_USERS_COUNT
+
+        generated_users_list = generator_of_users(amount_of_users=users_count)
+
+        data['generated_users_list'] = generated_users_list
+
+        return data
