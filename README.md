@@ -72,4 +72,12 @@ Purge all data related with services
 make d-purge
 ```
 
+### 🦸Superuser
+
+For creating superuser, please run the following command.
+
+```shell
+make init-dev-create-superuser
+```
+
 ---
