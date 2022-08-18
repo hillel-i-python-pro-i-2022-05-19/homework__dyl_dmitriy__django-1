@@ -1,5 +1,4 @@
-"""Django_Test_project URL Configuration
-
+"""Simple_crud URL Configuration
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/4.0/topics/http/urls/
 Examples:
@@ -14,15 +13,9 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.contrib.staticfiles.storage import staticfiles_storage
 from django.urls import path, include
-from django.views.generic import RedirectView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('user-generator/', include('apps.user_generator.urls')),
-    path('contacts/', include('apps.contacts.urls')),
-    path('', include('apps.base.urls')),
-    path('favicon.ico',
-         RedirectView.as_view(url=staticfiles_storage.url('img/favicon.ico')))
+    path('', include('apps.phone_book.urls'))
 ]
