@@ -1,26 +1,39 @@
-import random
-from typing import ClassVar
+import logging
+from typing import Iterator
 
-from django.core.management.base import BaseCommand, CommandParser
+from apps.phone_book.models import Contact
+from django.core.management.base import BaseCommand
 from faker import Faker
 
-from apps.contacts.models import Contact
+faker = Faker()
 
-fake = Faker()
+
+def contact_generator(amount_of_contacts) -> Iterator[Contact]:
+    for _ in range(amount_of_contacts):
+        contact = Contact(
+            contact_name=faker.name(),
+            phone_value=faker.phone_number(),
+        )
+        contact.save()
+        yield contact
 
 
 class Command(BaseCommand):
-    HELP_TEXT: ClassVar[str] = 'Closes the specified poll for voting'
+    help = 'Create contact'
 
-    def add_arguments(self, parser: CommandParser):
+    def add_arguments(self, parser):
         parser.add_argument('amount', type=int)
 
     def handle(self, *args, **options):
-        amount_of_contacts: int = options['amount']
+        amount_of_contact = options['amount']
 
-        for _ in range(amount_of_contacts):
-            contact = Contact(
-                contact_name=f'{fake.first_name()}',
-                phone_value=f'{random.randint(10000000000, 999999999999)}',
-            )
-            contact.save()
+        logger = logging.getLogger('create_contacts')
+
+        logger.info(f'Amount of contacts before: {Contact.objects.count()}')
+
+        generator_object = contact_generator(amount_of_contact)
+        for el in generator_object:
+            print(el)
+        # contact_list = [f'{el.contact_name}{el.phone_value}' for el in generator_object]
+
+        logger.info(f'Amount of contacts after: {Contact.objects.count()}')
