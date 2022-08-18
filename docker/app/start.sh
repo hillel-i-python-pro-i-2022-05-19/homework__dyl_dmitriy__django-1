@@ -13,7 +13,7 @@ set -o xtrace
 # [bash_init]-[END]
 
 # Apply database migrations.
-make migrate
-
 # Run application.
-python manage.py runserver 0.0.0.0:8011
+python3 manage.py makemigrations
+python3 manage.py migrate
+python3 manage.py runserver 0.0.0.0:8000

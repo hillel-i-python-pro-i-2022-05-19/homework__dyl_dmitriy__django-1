@@ -1,14 +1,13 @@
-from django.urls import path, include
+from django.urls import path
 
-from apps.contacts import views
-
-app_name = "contacts"
+from .views import MainpageView, ReaderView, DeleterView, CreatorView, DeleterListView, UpdaterListView, UpdaterView
 
 urlpatterns = [
-    path("", views.ShowAllContactsView.as_view(), name='show_all'),
-    path("create", views.ContactCreateView.as_view(), name='create'),
-    path('<int:pk>/', include([
-        path('edit', views.ContactUpdateView.as_view(), name='edit'),
-        path('delete', views.DeleteContactsView.as_view(), name='delete')
-    ])),
+    path('', MainpageView.as_view(), name='main_page'),
+    path('create_contact/', CreatorView.as_view(), name='contactcreator'),
+    path('read_contact/', ReaderView.as_view(), name='contactreader'),
+    path('update_contact/', UpdaterListView.as_view(), name='contactupdater_temp'),
+    path('update_contact/<int:pk>', UpdaterView.as_view(), name='contactupdater'),
+    path('delete_contact/', DeleterListView.as_view(), name='contactdeleter_temp'),
+    path('delete_contact/<int:pk>', DeleterView.as_view(), name='contactdeleter'),
 ]

@@ -23,9 +23,7 @@ export DATABASE_URL="postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGR
 postgres_ready() {
   python <<END
 import sys
-
 import psycopg2
-
 try:
     psycopg2.connect(
         dbname="${POSTGRES_DB}",
@@ -37,7 +35,6 @@ try:
 except psycopg2.OperationalError:
     sys.exit(-1)
 sys.exit(0)
-
 END
 }
 

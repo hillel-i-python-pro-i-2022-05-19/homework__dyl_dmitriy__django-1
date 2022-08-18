@@ -1,64 +1,43 @@
-from django.contrib import messages
-from django.http import HttpResponse, HttpRequest
-from django.shortcuts import render, redirect, get_object_or_404
+from django.views.generic import TemplateView, ListView, DeleteView, CreateView, UpdateView
+from django.views.generic import TemplateView, ListView, DeleteView, CreateView, UpdateView
 
-from apps.contacts.forms import ContactForm
-from apps.contacts.models import Contact
+from .models import Contact
 
 
-def show_all_contacts(request: HttpRequest) -> HttpResponse:
-    contacts = Contact.objects.all()
-    return render(
-        request, 'contacts/show_all.html',
-        {"contacts": contacts}
-    )
+class MainpageView(TemplateView):
+    template_name = 'phone_book/base.html'
 
 
-def create_contacts(request: HttpRequest) -> HttpResponse:
-    if request.POST:
-        form = ContactForm(request.POST)
-
-        if form.is_valid():
-            form.save()
-            messages.info(request, 'Contact created')
-            return redirect('contacts:show_all')
-
-    else:
-        form = ContactForm()
-
-    return render(
-        request,
-        'contacts/edit.html',
-        {"form": form}
-    )
+class ReaderView(ListView):
+    model = Contact
+    template_name = 'phone_book/reader.html'
 
 
-def edit_contacts(request: HttpRequest, pk: int) -> HttpResponse:
-    contact = get_object_or_404(Contact, pk=pk)
-    if request.POST:
-        form = ContactForm(request.POST, instance=contact)
-
-        if form.is_valid():
-            form.save()
-            messages.info(request, 'Contact edited')
-            return redirect('contacts:show_all')
-
-    else:
-        form = ContactForm(instance=contact)
-
-    return render(
-        request,
-        'contacts/edit.html',
-        {"form": form}
-    )
+class DeleterListView(ListView):
+    model = Contact
+    template_name = 'phone_book/deleter.html'
 
 
-def delete_contacts(request: HttpRequest, pk: int) -> HttpResponse:
-    total_deleted_contacts, _ = Contact.objects.filter(pk=pk).delete()
+class DeleterView(DeleteView):
+    model = Contact
+    success_url = reverse_lazy('contactdeleter_temp')
+    template_name = "phone_book/contact_confirm_delete.html"
 
-    if total_deleted_contacts:
-        messages.warning(request, f'Contact deleted: {total_deleted_contacts}')
-    else:
-        messages.info(request, 'Nothing deleted')
 
-    return redirect('contacts:show_all')
+class CreatorView(CreateView):
+    model = Contact
+    template_name = 'phone_book/creator.html'
+    fields = ['contact_name', 'phone_value']
+    success_url = reverse_lazy('contactcreator')
+
+
+class UpdaterListView(ListView):
+    model = Contact
+    template_name = 'phone_book/updater.html'
+
+
+class UpdaterView(UpdateView):
+    model = Contact
+    template_name = 'phone_book/updater_final.html'
+    fields = ['contact_name', 'phone_value']
+    success_url = reverse_lazy('contactupdater_temp')
