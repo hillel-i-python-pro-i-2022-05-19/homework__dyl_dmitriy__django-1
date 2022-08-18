@@ -60,7 +60,7 @@ coverage.xml
 local_settings.py
 db/db.sqlite3
 db.sqlite3-journal
-
+db.sqlite3
 # Flask stuff:
 instance/
 .webassets-cache
@@ -103,7 +103,6 @@ celerybeat.pid
 
 # Environments
 .env
-.env.example
 .venv/
 env/
 venv/
@@ -213,6 +212,3 @@ docker-compose.override.yml
 # For SQLite DB.
 db/**
 !db/.gitkeep
-
-# Custom files
-settings.py
