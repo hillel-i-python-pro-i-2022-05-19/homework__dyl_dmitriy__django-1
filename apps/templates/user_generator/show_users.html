@@ -1,0 +1,19 @@
+{% extends '_helpers/_base.html' %}
+
+{% block title %}
+Users
+{% endblock %}
+
+{% block content %}
+<h2 style="background: grey"><u>{{ number_of_users }} Users:</u></h2>
+<table style="border: 5px double; background: chocolate">
+    <tbody style="color: white">
+    {% for user in users %}
+    <tr style="background: grey">
+        <td style="border: 2px solid black; padding: 5px">{{ user.name }}</td>
+        <td style="border: 2px solid black; padding: 5px"><em>{{ user.email }}</em></td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

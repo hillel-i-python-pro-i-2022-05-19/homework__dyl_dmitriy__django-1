@@ -1,5 +1,4 @@
 from django.views.generic import TemplateView, ListView, DeleteView, CreateView, UpdateView
-from django.views.generic import TemplateView, ListView, DeleteView, CreateView, UpdateView
 
 from .models import Contact
 
@@ -26,14 +25,14 @@ class DeleterView(DeleteView):
 
 class CreatorView(CreateView):
     model = Contact
-    template_name = 'phone_book/creator.html'
+    template_name = 'phone_book/create_contact.html'
     fields = ['contact_name', 'phone_value']
     success_url = reverse_lazy('contactcreator')
 
 
 class UpdaterListView(ListView):
     model = Contact
-    template_name = 'phone_book/updater.html'
+    template_name = 'phone_book/updat_contact.html'
 
 
 class UpdaterView(UpdateView):
