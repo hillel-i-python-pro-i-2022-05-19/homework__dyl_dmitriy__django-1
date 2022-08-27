@@ -1,6 +1,8 @@
 output-format: pylint
 
-max-line-length: 120
+pycodestyle:
+  options:
+  max-line-length: 120
 
 uses:
   - django

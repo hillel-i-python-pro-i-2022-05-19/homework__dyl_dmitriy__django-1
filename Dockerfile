@@ -1,32 +1,36 @@
 FROM python:3.10
 
-ENV PYTHONUNBUFFERED=1 TIMEZONE=UTC+2
-RUN apt-get update
+ENV PYTHONUNBUFFERED=1
 
-RUN mkdir -p /usr/src/app/
-ARG WORKDIR=/usr/src/app/
+ARG USER=user
+ARG UID=1000
+ARG WORKDIR=/wd
 
 WORKDIR ${WORKDIR}
 
-RUN python -m pip install --upgrade pip
+RUN useradd --system ${USER} --uid=${UID} && \
+    chown --recursive ${USER} ${WORKDIR}
+
+RUN apt update && apt upgrade -y
+
 COPY requirements.txt requirements.txt
-RUN pip install --requirement requirements.txt
+
+RUN pip install --upgrade pip && \
+    pip install --requirement requirements.txt
 
 COPY --chmod=755 ./docker/app/entrypoint.sh /entrypoint.sh
 COPY --chmod=755 ./docker/app/start.sh /start.sh
 
-COPY . /usr/src/app/
+COPY ./Makefile Makefile
 
-ARG USER=user
-ARG UID=1000
+COPY ./manage.py manage.py
+COPY ./apps ./apps/
+COPY ./core ./core/
 
-
-RUN useradd --system ${USER} --uid=${UID}
-
-RUN chown --recursive ${USER} ${WORKDIR}
-
+USER ${USER}
 
 ENTRYPOINT ["/entrypoint.sh"]
-CMD ["/start.sh"]
 
-EXPOSE 8000
+VOLUME ${WORKDIR}/media
+
+EXPOSE 8001
