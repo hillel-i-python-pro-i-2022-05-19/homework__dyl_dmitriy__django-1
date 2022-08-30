@@ -8,7 +8,7 @@
 <ol>
     {% for contact in contacts %}
     <li style="margin: .2em;">
-        <span>{{ contact.contact_name }} - {{ contact.phone_value }}</span>
+        <span>{{ contact.contact_name }} - (+{{ contact.phone_value }}) - {{ contact.birthday_date }}</span>
 
         <a href="{% url 'contacts:edit' pk=contact.pk %}">
             <button class="btn btn-outline-secondary">Edit</button>

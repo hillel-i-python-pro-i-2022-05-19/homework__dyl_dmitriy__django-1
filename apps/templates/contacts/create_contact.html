@@ -1,0 +1,87 @@
+{% extends '_helpers/_base.html' %}
+{% load static %}
+
+{% block title %}
+{{ contact.contact_name }}
+{% endblock %}
+
+{% block favicon-href %}
+{% static "images/contact-card.png"%}
+{% endblock %}
+
+{% block content %}
+<ul class="list-group list-group-horizontal">
+    <li class="list-group-item">
+        Contact Name:
+    </li>
+    <li class="list-group-item">
+        {{ contact.contact_name }}
+    </li>
+</ul>
+
+{% if contact.avatar %}
+<ul class="list-group list-group-horizontal">
+    <li class="list-group-item">
+        Contact Avatar:
+    </li>
+    <li class="list-group-item">
+        <img class="contact-avatar" src="{{ contact.avatar.url }}" alt="{{ contact.contact_name }}">
+    </li>
+</ul>
+{% endif %}
+
+{% if contact.birthday %}
+<ul class="list-group list-group-horizontal">
+    <li class="list-group-item">
+        Birthday:
+    </li>
+    <li class="list-group-item">
+        {{ contact.birthday }}
+    </li>
+</ul>
+{% endif %}
+
+{% if contact.contact_tags.all %}
+<ul class="list-group list-group-horizontal">
+    <li class="list-group-item">
+        Tags List:
+    </li>
+    <li class="list-group-item">
+        {% for tag in contact.contact_tags.all %}
+        <span>{{ tag }} </span>
+        {% endfor %}
+    </li>
+</ul>
+{% endif %}
+
+<ul class="list-group list-group-horizontal">
+    <li class="list-group-item">
+        Created at:
+    </li>
+    <li class="list-group-item">
+        {{ contact.created_at }}
+    </li>
+</ul>
+
+<ul class="list-group list-group-horizontal">
+    <li class="list-group-item">
+        Modified at:
+    </li>
+    <li class="list-group-item">
+        {{ contact.modified_at }}
+    </li>
+</ul>
+
+
+<div class="btn-group" role="group">
+    <a href="{% url 'contacts:show_contacts' %}" class="btn btn-info">
+        Show All Contacts
+    </a>
+    <a href="{% url 'contacts:update_contact' pk=contact.pk %}" class="btn btn-primary">
+        Update Contact
+    </a>
+    <a href="{% url 'contacts:delete_contact' pk=contact.pk %}" class="btn btn-danger">
+        Delete Contact
+    </a>
+</div>
+{% endblock %}

@@ -1,75 +1,21 @@
-# Repository with all Django homeworks
+Run
+To run application, write
 
----
-
-## 🏠 Homework #14
-
-Implemented simple CRUD functionality.
-
-Below will be listed all the homework related actions.
-
-### ▶️ Run
-
-Make all actions needed for run homework from zero.
-
-```shell
 make d-homework-i-run
-```
+Then open browser and type address:
 
-### 🚮 Purge
+localhost:8001/user-generator/
+If you want manage the number of users generated, add their number to the end of the address
 
-Make all actions needed for run homework from zero.
+Example:
 
-```shell
-make d-homework-i-purge
-```
+localhost:8001/user-generator/55
+Tests
+To run tests, write
 
----
+pytest
+You can add arguments "-v, --verbose" to increase verbosity.
 
-## 🏗️ Preparation
+Example:
 
-Make some initialization steps. For example, copy configs.
-
-```shell
-make init-configs-i-dev
-```
-
----
-
-## 🐳 Docker
-
-Use services in dockers.
-
-### ▶️ Run
-
-Just run
-
-```shell
-make d-run
-```
-
-### ⏯️ Run extended
-
-Shutdown previous, run in detached mode, follow logs
-
-```shell
-make d-run-i-extended
-```
-
-### ⏹️Stop
-
-Stop services
-
-```shell
-make d-stop
-```
-
-### 🚮 Purge
-
-Purge all data related with services
-
-```shell
-make d-purge
-```
-
----
+pytest -v

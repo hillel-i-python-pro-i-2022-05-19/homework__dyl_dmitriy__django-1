@@ -1,13 +1,19 @@
-{% extends '_base.html' %}
+{% extends '_helpers/_base.html' %}
 
-{% block body %}
-<h3><b>Show generated users and emails</b></h3>
-<hr class="border-primary border-3 opacity-75">
-<ul>
-    <h4>The number of users to be generated is: <b>{{ users_count }}</b>
-    </h4>
-    {% for user in output_response %}
-    <li>{{ user.name }} - {{ user.unique_email_address }}</li>
+{% block title %}
+Users
+{% endblock %}
+
+{% block content %}
+<h2 style="background: grey"><u>{{ number_of_users }} Users:</u></h2>
+<table style="border: 5px double; background: chocolate">
+    <tbody style="color: white">
+    {% for user in users %}
+    <tr style="background: grey">
+        <td style="border: 2px solid black; padding: 5px">{{ user.name }}</td>
+        <td style="border: 2px solid black; padding: 5px"><em>{{ user.email }}</em></td>
+    </tr>
     {% endfor %}
-</ul>
+    </tbody>
+</table>
 {% endblock %}

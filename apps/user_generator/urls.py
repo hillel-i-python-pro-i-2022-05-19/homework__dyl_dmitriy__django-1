@@ -1,9 +1,11 @@
 from django.urls import path
 
-from apps.user_generator.views import generate_users_view
+from . import views
 
-app_name = 'user_generator'
+app_name = "user_generator"
+
 urlpatterns = [
-    path('', generate_users_view, name='index'),
-    path('<int:users_count>', generate_users_view)
+    path("", views.UserGeneratorView.as_view(), name="index"),
+    path("<int:number_of_users>", views.UserGeneratorView.as_view()),
+    path("<int:number_of_users>/", views.UserGeneratorView.as_view()),
 ]
